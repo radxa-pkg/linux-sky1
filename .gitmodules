@@ -1,0 +1,3 @@
+[submodule "src"]
+	path = src
+	url = http://gitlab.vamrs.org/cix-linux/cix_opensource/linux.git
