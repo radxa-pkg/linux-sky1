@@ -13,7 +13,6 @@ KERNEL_DEFCONFIG ?= defconfig cix.config cix_rs600.config radxa.config
 .PHONY: all
 all: build
 
-
 #
 # Test
 #
