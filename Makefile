@@ -8,7 +8,7 @@ KERNEL_FORK ?= sky1
 ARCH ?= arm64
 CROSS_COMPILE ?= aarch64-linux-gnu-
 DPKG_FLAGS ?= -d
-KERNEL_DEFCONFIG ?= defconfig cix.config cix_rs600.config radxa.config
+KERNEL_DEFCONFIG ?= defconfig cix.config cix_rs600.config radxa.config radxa_custom.config
 
 .PHONY: all
 all: build
