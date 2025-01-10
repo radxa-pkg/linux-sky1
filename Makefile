@@ -10,6 +10,13 @@ CROSS_COMPILE ?= aarch64-linux-gnu-
 DPKG_FLAGS ?= -d
 KERNEL_DEFCONFIG ?= defconfig cix.config cix_rs600.config radxa.config radxa_custom.config
 
+KMAKE ?= $(MAKE) -C "$(SRC-KERNEL)" -j$(shell nproc) \
+			ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) HOSTCC=$(CROSS_COMPILE)gcc \
+			KDEB_COMPRESS="xz" KDEB_CHANGELOG_DIST="unstable" DPKG_FLAGS=$(DPKG_FLAGS) \
+			LOCALVERSION=-$(shell dpkg-parsechangelog -S Version | cut -d "-" -f 2)-$(KERNEL_FORK) \
+			KERNELRELEASE=$(shell dpkg-parsechangelog -S Version)-$(KERNEL_FORK) \
+			KDEB_PKGVERSION=$(shell dpkg-parsechangelog -S Version)
+
 .PHONY: all
 all: build
 
@@ -23,18 +30,25 @@ test:
 # Build
 #
 .PHONY: build
-build: build-kernel
+build: build-defconfig build-bindeb
 
 SRC-KERNEL	:=	src
+
+.PHONY: build-defconfig
+build-defconfig: $(SRC-KERNEL)
+	$(KMAKE) $(KERNEL_DEFCONFIG)
+
 .PHONY: build-kernel
-build-kernel: $(SRC-KERNEL)
-	$(MAKE) -C "$(SRC-KERNEL)" -j$(shell nproc) \
-		ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) HOSTCC=$(CROSS_COMPILE)gcc \
-		KDEB_COMPRESS="xz" KDEB_CHANGELOG_DIST="unstable" DPKG_FLAGS=$(DPKG_FLAGS) \
-		LOCALVERSION=-$(shell dpkg-parsechangelog -S Version | cut -d "-" -f 2)-$(KERNEL_FORK) \
-		KERNELRELEASE=$(shell dpkg-parsechangelog -S Version)-$(KERNEL_FORK) \
-		KDEB_PKGVERSION=$(shell dpkg-parsechangelog -S Version) \
-		$(KERNEL_DEFCONFIG) all bindeb-pkg
+build-dtbs: $(SRC-KERNEL)
+	$(KMAKE) dtbs
+
+.PHONY: build-kernel
+build-all: $(SRC-KERNEL)
+	$(KMAKE) all
+
+.PHONY: build-kernel
+build-bindeb: $(SRC-KERNEL) build-all
+	$(KMAKE) bindeb-pkg
 	mv linux-*_arm64.deb linux-upstream*_arm64.changes linux-upstream*_arm64.buildinfo ../
 
 #
