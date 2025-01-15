@@ -26,6 +26,10 @@
         enable = true;
         excludes = [
         ];
+        settings.ignored-words = [
+          "Synopsys"
+          "HSI"
+        ];
       };
     };
   };
