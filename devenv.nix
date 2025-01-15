@@ -10,6 +10,7 @@
     mdbook-i18n-helpers
     mdbook-linkcheck
     mdbook-toc
+    ncurses
   ];
 
   pre-commit = {
