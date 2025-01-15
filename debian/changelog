@@ -1,4 +1,4 @@
-linux-sky1 (6.1.44-1) UNRELEASED; urgency=medium
+linux-sky1 (6.1.44-1) jammy; urgency=medium
 
   * Add initial Debian packaging support
 
