@@ -1,8 +1,4 @@
 PROJECT ?= linux-sky1
-PREFIX ?= /usr
-BINDIR ?= $(PREFIX)/bin
-LIBDIR ?= $(PREFIX)/lib
-MANDIR ?= $(PREFIX)/share/man
 
 KERNEL_FORK ?= sky1
 ARCH ?= arm64
@@ -38,15 +34,15 @@ SRC-KERNEL	:=	src
 build-defconfig: $(SRC-KERNEL)
 	$(KMAKE) $(KERNEL_DEFCONFIG)
 
-.PHONY: build-kernel
+.PHONY: build-dtbs
 build-dtbs: $(SRC-KERNEL)
 	$(KMAKE) dtbs
 
-.PHONY: build-kernel
+.PHONY: build-all
 build-all: $(SRC-KERNEL)
 	$(KMAKE) all
 
-.PHONY: build-kernel
+.PHONY: build-bindeb
 build-bindeb: $(SRC-KERNEL) build-all
 	$(KMAKE) bindeb-pkg
 	mv linux-*_arm64.deb linux-upstream*_arm64.changes linux-upstream*_arm64.buildinfo ../
