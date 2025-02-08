@@ -907,6 +907,10 @@ index 000000000000..c26829dd1cae
 +CONFIG_SQUASHFS_ZSTD=y
 +CONFIG_SQUASHFS_4K_DEVBLK_SIZE=y
 +
++# Enable additional language support
++CONFIG_NLS_ASCII=y
++CONFIG_NLS_ISO8859_1=y
++
 +# Prefer r8125-dkms
 +CONFIG_R8125=n
 +
@@ -929,10 +933,6 @@ index 000000000000..c26829dd1cae
 +# Prefer rtw89-dkms
 +CONFIG_RTW89=n
 +CONFIG_RTW89_8852BE=n
-+
-+# Enable optional virtual filesystems
-+CONFIG_NLS_ASCII=y
-+CONFIG_NLS_ISO8859_1=y
 --
 2.47.1
 
