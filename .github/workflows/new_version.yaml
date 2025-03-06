@@ -10,9 +10,12 @@ jobs:
         fetch-depth: 0
         submodules: "recursive"
         token: "${{secrets.GIT_PUSH_TOKEN}}"
+    - name: "Enable Multiarch"
+      uses: "RadxaYuntian/action-apt@master"
+      with:
+        arch: "arm64"
     - name: "Create release commit"
       run: |
-        sudo dpkg --add-architecture arm64
         sudo apt-get update
         sudo apt-get install --no-install-recommends -y git-buildpackage
         export DEBEMAIL="dev@radxa.com"
