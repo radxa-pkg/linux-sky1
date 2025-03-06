@@ -26,7 +26,7 @@ jobs:
       shell: "bash"
     - name: "Test"
       run: |
-        sudo apt-get build-dep --no-install-recommends -y .
+        make devcontainer_setup
         make test deb
       shell: "bash"
     - name: "Test"
