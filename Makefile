@@ -21,6 +21,12 @@ KMAKE ?= $(MAKE) -C "$(SRC-KERNEL)" -j$(shell nproc) \
 .PHONY: all
 all: build
 
+.PHONY: devcontainer_setup
+devcontainer_setup:
+	sudo dpkg --add-architecture arm64
+	sudo apt-get update
+	sudo apt-get build-dep . -y
+
 #
 # Test
 #
@@ -85,7 +91,7 @@ clean-deb:
 #
 .PHONY: dch
 dch: debian/changelog
-	EDITOR=true gbp dch --ignore-branch --multimaint-merge --commit --release --dch-opt=--upstream
+	EDITOR=true gbp dch --ignore-branch --multimaint-merge --commit --git-log='--no-merges --perl-regexp --author ^((?!github-actions\[bot\]).*)$' --release --dch-opt=--upstream
 
 .PHONY: deb
 deb: debian
