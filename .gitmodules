@@ -1,4 +1,4 @@
 [submodule "src"]
 	path = src
 	url = https://github.com/radxa/kernel.git
-	branch = 874c4/bbdf2/cix_beta2_radxa_dev
+	branch = 874c4/78b98/cix_p1_radxa_acpi_beta_dev
