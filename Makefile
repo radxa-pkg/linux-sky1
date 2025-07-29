@@ -1,23 +1,8 @@
 -include .github/local/Makefile.local
+-include Makefile.extra
+
 PROJECT ?= linux-sky1
-
-KERNEL_FORK ?= sky1
-ARCH ?= arm64
-CROSS_COMPILE ?= aarch64-linux-gnu-
-DPKG_FLAGS ?= -d
-KERNEL_DEFCONFIG ?= defconfig radxa.config
-CUSTOM_ENV_DEFINITIONS ?=
-CUSTOM_MAKE_DEFINITIONS ?=
 CUSTOM_DEBUILD_ENV ?= DEB_BUILD_OPTIONS='parallel=1'
-SUPPORT_CLEAN ?= true
-
-KMAKE ?= $(CUSTOM_ENV_DEFINITIONS) $(MAKE) -C "$(SRC-KERNEL)" -j$(shell nproc) \
-			$(CUSTOM_MAKE_DEFINITIONS) \
-			ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_COMPILE) HOSTCC=$(CROSS_COMPILE)gcc \
-			KDEB_COMPRESS="xz" KDEB_CHANGELOG_DIST="unstable" DPKG_FLAGS=$(DPKG_FLAGS) \
-			LOCALVERSION=-$(shell dpkg-parsechangelog -S Version | cut -d "-" -f 2)-$(KERNEL_FORK) \
-			KERNELRELEASE=$(shell dpkg-parsechangelog -S Version)-$(KERNEL_FORK) \
-			KDEB_PKGVERSION=$(shell dpkg-parsechangelog -S Version)
 
 .DEFAULT_GOAL := all
 .PHONY: all
@@ -39,61 +24,66 @@ test:
 # Build
 #
 .PHONY: build
-build: pre_build build-defconfig build-bindeb post_build
+build: pre_build main_build post_build
 
 .PHONY: pre_build
 pre_build:
 	# Fix file permissions when created from template
 	chmod +x debian/rules
 
+.PHONY: main_build
+main_build:
+
 .PHONY: post_build
 post_build:
 
-SRC-KERNEL	?=	src
+#
+# Documentation
+#
+.PHONY: serve
+serve:
+	mdbook serve
 
-.PHONY: build-defconfig
-build-defconfig: $(SRC-KERNEL)
-	$(KMAKE) $(KERNEL_DEFCONFIG)
+.PHONY: serve_zh-CN
+serve_zh-CN:
+	MDBOOK_BOOK__LANGUAGE=zh-CN mdbook serve -d book/zh-CN
 
-.PHONY: build-dtbs
-build-dtbs: $(SRC-KERNEL)
-	$(KMAKE) dtbs
-
-.PHONY: build-modules
-build-modules: $(SRC-KERNEL)
-	$(KMAKE) modules
-
-.PHONY: build-all
-build-all: $(SRC-KERNEL)
-	$(KMAKE) all
-
-.PHONY: build-bindeb
-build-bindeb: $(SRC-KERNEL) build-all
-	$(KMAKE) bindeb-pkg
-	mv linux-*_arm64.deb linux-upstream*_arm64.changes linux-upstream*_arm64.buildinfo ../
+PO_LOCALE := zh-CN
+.PHONY: translate
+translate:
+	MDBOOK_OUTPUT='{"xgettext": {"pot-file": "messages.pot"}}' mdbook build -d po
+	cd po; \
+	for i in $(PO_LOCALE); \
+	do \
+		if [ ! -f $$i.po ]; \
+		then \
+			msginit -l $$i --no-translator; \
+		else \
+			msgmerge --update $$i.po messages.pot; \
+		fi \
+	done
 
 #
 # Clean
 #
 .PHONY: distclean
 distclean: clean
-	if [ "$(SUPPORT_CLEAN)" == "true" ]; then $(KMAKE) distclean; fi
 
 .PHONY: clean
 clean: clean-deb
-	if [ "$(SUPPORT_CLEAN)" == "true" ]; then $(KMAKE) clean; fi
 
 .PHONY: clean-deb
 clean-deb:
-	rm -rf debian/.debhelper debian/$(PROJECT)*/ debian/linux-*/ debian/tmp/ debian/debhelper-build-stamp debian/files debian/*.debhelper.log debian/*.*.debhelper debian/*.substvars
-	rm -f linux-*_arm64.deb linux-upstream*_arm64.changes linux-upstream*_arm64.buildinfo
+	rm -rf debian/.debhelper debian/$(PROJECT)*/ debian/tmp/ debian/debhelper-build-stamp debian/files debian/*.debhelper.log debian/*.*.debhelper debian/*.substvars
 
 #
 # Release
 #
 .PHONY: dch
 dch: debian/changelog
-	EDITOR=true gbp dch --ignore-branch --multimaint-merge --git-log='--no-merges --perl-regexp --invert-grep --grep=^(chore:\stemplates\sgenerated)' --release --dch-opt=--upstream --commit
+	gbp dch --ignore-branch --multimaint-merge --release --spawn-editor=never \
+	--git-log='--no-merges --perl-regexp --invert-grep --grep=^(chore:\stemplates\sgenerated)' \
+	--dch-opt=--upstream --commit --commit-msg="feat: release %(version)s"
 
 .PHONY: deb
 deb: debian
