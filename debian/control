@@ -11,11 +11,8 @@ Build-Depends: debhelper (>=12~),
                bison,
                bc,
                libncurses-dev,
-               crossbuild-essential-arm64 [!arm64],
-               binfmt-support [!arm64],
-               qemu-user-static [!arm64],
-               libc6:arm64 [!arm64],
-               libssl-dev:arm64,
+               libc6,
+               libssl-dev,
 
 Package: linux-image-orion-o6
 Architecture: all
