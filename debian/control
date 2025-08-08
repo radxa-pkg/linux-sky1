@@ -11,7 +11,6 @@ Build-Depends: debhelper (>=12~),
                bison,
                bc,
                libncurses-dev,
-               libc6,
                libssl-dev,
 
 Package: linux-image-orion-o6
