@@ -8,13 +8,13 @@ Subject: [PATCH] DPTSW-16669-1: pwm: remove reset operation
 Signed-off-by: jerry.zhu <jerry.zhu@cixtech.com>
 Change-Id: I42110d1754a4065c40c1931df022d4bab01b5b64
 ---
- drivers/pwm/pwm-sky1.c | 4 ----
+ src/drivers/pwm/pwm-sky1.c | 4 ----
  1 file changed, 4 deletions(-)
 
-diff --git a/drivers/pwm/pwm-sky1.c b/drivers/pwm/pwm-sky1.c
+diff --git a/src/drivers/pwm/pwm-sky1.c b/src/drivers/pwm/pwm-sky1.c
 index 90c643fb1b14..d528248a4ba2 100644
---- a/drivers/pwm/pwm-sky1.c
-+++ b/drivers/pwm/pwm-sky1.c
+--- a/src/drivers/pwm/pwm-sky1.c
++++ b/src/drivers/pwm/pwm-sky1.c
 @@ -285,10 +285,6 @@ static int pwm_sky1_probe(struct platform_device *pdev)
  	if (screen_info.lfb_linelength && (pwmcr & (PWM_MODE|ENABLE|ENPWM)))
  		return pwmchip_add(&sky1->chip); /* already init in uefi */

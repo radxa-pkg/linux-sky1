@@ -8,13 +8,13 @@ Remove pwm clock auto enable feature.
 Signed-off-by: jerry.zhu <jerry.zhu@cixtech.com>
 Change-Id: I0e52c90d7bf5b974f4235196d10472381621dcf0
 ---
- drivers/pwm/pwm-sky1.c | 18 +-----------------
+ src/drivers/pwm/pwm-sky1.c | 18 +-----------------
  1 file changed, 1 insertion(+), 17 deletions(-)
 
-diff --git a/drivers/pwm/pwm-sky1.c b/drivers/pwm/pwm-sky1.c
+diff --git a/src/drivers/pwm/pwm-sky1.c b/src/drivers/pwm/pwm-sky1.c
 index d528248a4ba2..86ed02afb223 100644
---- a/drivers/pwm/pwm-sky1.c
-+++ b/drivers/pwm/pwm-sky1.c
+--- a/src/drivers/pwm/pwm-sky1.c
++++ b/src/drivers/pwm/pwm-sky1.c
 @@ -74,11 +74,6 @@ static int pwm_sky1_get_state(struct pwm_chip *chip,
  	struct pwm_sky1_chip *sky1 = to_pwm_sky1_chip(chip);
  	u32 val, period;

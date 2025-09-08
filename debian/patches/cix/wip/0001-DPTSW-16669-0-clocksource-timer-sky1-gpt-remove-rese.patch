@@ -8,13 +8,13 @@ Subject: [PATCH] DPTSW-16669-0: clocksource: timer-sky1-gpt: remove reset
 Signed-off-by: jerry.zhu <jerry.zhu@cixtech.com>
 Change-Id: I60335dab0beb39eac5da3ff2d033a28db4036b76
 ---
- drivers/clocksource/timer-sky1-gpt.c | 8 --------
+ src/drivers/clocksource/timer-sky1-gpt.c | 8 --------
  1 file changed, 8 deletions(-)
 
-diff --git a/drivers/clocksource/timer-sky1-gpt.c b/drivers/clocksource/timer-sky1-gpt.c
+diff --git a/src/drivers/clocksource/timer-sky1-gpt.c b/src/drivers/clocksource/timer-sky1-gpt.c
 index 5e6a15e94d13..15fc2340cf23 100644
---- a/drivers/clocksource/timer-sky1-gpt.c
-+++ b/drivers/clocksource/timer-sky1-gpt.c
+--- a/src/drivers/clocksource/timer-sky1-gpt.c
++++ b/src/drivers/clocksource/timer-sky1-gpt.c
 @@ -225,10 +225,6 @@ static int sky1_tick_resume(struct clock_event_device *ced)
  {
  	struct sky1_timer *sky1tm = to_sky1_timer(ced);

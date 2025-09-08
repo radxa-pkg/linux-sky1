@@ -8,13 +8,13 @@ Because csu_pm use pwm function, disable uart1 device node.
 Signed-off-by: jerry.zhu <jerry.zhu@cixtech.com>
 Change-Id: Ia16122f587bc0f86b6a09fb83396dba089a8c825
 ---
- arch/arm64/boot/dts/cix/sky1-evb.dts | 2 +-
+ src/arch/arm64/boot/dts/cix/sky1-evb.dts | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/cix/sky1-evb.dts b/arch/arm64/boot/dts/cix/sky1-evb.dts
+diff --git a/src/arch/arm64/boot/dts/cix/sky1-evb.dts b/src/arch/arm64/boot/dts/cix/sky1-evb.dts
 index a7a95c0e1a87..8522a8324378 100755
---- a/arch/arm64/boot/dts/cix/sky1-evb.dts
-+++ b/arch/arm64/boot/dts/cix/sky1-evb.dts
+--- a/src/arch/arm64/boot/dts/cix/sky1-evb.dts
++++ b/src/arch/arm64/boot/dts/cix/sky1-evb.dts
 @@ -2148,7 +2148,7 @@ &uart0{
          dma-names = "tx","rx";
  };
