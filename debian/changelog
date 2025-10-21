@@ -1,3 +1,17 @@
+linux-sky1 (6.6.89-1) UNRELEASED; urgency=medium
+
+  [ "Radxa Computer Co., Ltd" ]
+  * chore: update to CIX 2025.04 release
+
+  [ ZHANG Yuntian ]
+  * chore: update template
+  * chore: update template
+  * fix: install host dependency
+  * feat: import CIX WIP patches
+  * fix: correct file path
+
+ -- "Radxa Computer Co., Ltd" <dev@radxa.com>  Thu, 09 Oct 2025 08:51:41 +0000
+
 linux-sky1 (6.6.10-1) UNRELEASED; urgency=medium
 
   * chore: update to CIX 2025.04 release
