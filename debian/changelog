@@ -1,4 +1,4 @@
-linux-sky1 (6.6.89-1) UNRELEASED; urgency=medium
+linux-sky1 (6.6.89-1) unstable; urgency=medium
 
   [ "Radxa Computer Co., Ltd" ]
   * chore: update to CIX 2025.04 release
@@ -10,7 +10,10 @@ linux-sky1 (6.6.89-1) UNRELEASED; urgency=medium
   * feat: import CIX WIP patches
   * fix: correct file path
 
- -- "Radxa Computer Co., Ltd" <dev@radxa.com>  Thu, 09 Oct 2025 08:51:41 +0000
+  [ github-actions[bot] ]
+  * chore: update submodules
+
+ -- "Radxa Computer Co., Ltd" <dev@radxa.com>  Thu, 06 Nov 2025 08:14:10 +0000
 
 linux-sky1 (6.6.10-1) UNRELEASED; urgency=medium
 
