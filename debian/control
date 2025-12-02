@@ -17,7 +17,8 @@ Package: linux-image-orion-o6
 Architecture: all
 Section: kernel
 Priority: optional
-Provides: linux-image
+Provides: linux-image,
+          cix-csidma-driver,
 Depends: radxa-overlays-dkms,
          linux-image-${binary:Version}-sky1,
          ${misc:Depends},
@@ -48,7 +49,8 @@ Package: linux-image-radxa-orion-cix-p1
 Architecture: all
 Section: kernel
 Priority: optional
-Provides: linux-image
+Provides: linux-image,
+          cix-csidma-driver,
 Depends: radxa-overlays-dkms,
          linux-image-${binary:Version}-sky1,
          ${misc:Depends},
