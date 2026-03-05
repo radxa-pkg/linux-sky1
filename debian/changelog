@@ -1,3 +1,15 @@
+linux-sky1 (6.6.89-4) unstable; urgency=medium
+
+  [ ZHANG Yuntian ]
+  * fix: limit package release to related SoC repo
+  * chore: update to 25Q4 SDK
+  * fix: update invalid submodule branch name
+
+  [ github-actions[bot] ]
+  * chore: update submodules
+
+ -- "Radxa Computer Co., Ltd" <dev@radxa.com>  Thu, 05 Mar 2026 11:53:49 +0000
+
 linux-sky1 (6.6.89-3) unstable; urgency=medium
 
   [ Zhaoming Luo ]
