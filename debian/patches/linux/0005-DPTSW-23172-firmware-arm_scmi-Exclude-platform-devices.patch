@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jianfeng Liu <Jianfeng.Liu@cixtech.com>
+Date: Thu, 26 Feb 2026 09:26:28 +0800
+Subject: [PATCH] DPTSW-23172: firmware: arm_scmi: Exclude platform devices
+ from bus matching
+
+We get a kernel panic caused by accessing invalid mem address of
+sdev->name in scmi_match_by_id_table(). scmi_match_by_id_table() will
+match both devices like "scmi_dev.1" created by scmi protocol and
+devices like "CIXHA008:00" from ACPI asl. And sometimes sdev->protocol_id
+which is converted by to_scmi_dev() from platform devices like
+"CIXHA008:00" happens to equal id_table->protocol_id, then we get a
+kernel panic since converted scmi_device doesn't have valid sdev->name.
+
+To fix it, only match devices created by scmi protocol.
+
+Signed-off-by: Jianfeng Liu <Jianfeng.Liu@cixtech.com>
+Change-Id: I28e627d75c2237daeb48cfb815bd6751ddbd7378
+Signed-off-by: ZHANG Yuntian <yt@radxa.com>
+---
+ src/drivers/firmware/arm_scmi/bus.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/drivers/firmware/arm_scmi/bus.c b/src/drivers/firmware/arm_scmi/bus.c
+index c27be72e05b3..60294f0bfa74 100644
+--- a/src/drivers/firmware/arm_scmi/bus.c
++++ b/src/drivers/firmware/arm_scmi/bus.c
+@@ -224,7 +224,9 @@ static int scmi_match_by_id_table(struct device *dev, void *data)
+ 	struct scmi_device *sdev = to_scmi_dev(dev);
+ 	struct scmi_device_id *id_table = data;
+ 
++	/* Only check scmi protocol devices */
+ 	return sdev->protocol_id == id_table->protocol_id &&
++		!strncmp(dev->bus->name, "scmi_protocol", 13) &&
+ 		(id_table->name && !strcmp(sdev->name, id_table->name));
+ }
+ 
+-- 
+2.54.0
+
