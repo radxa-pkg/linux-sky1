@@ -1,0 +1,70 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: ZHANG Yuntian <yt@radxa.com>
+Date: Wed, 15 Jul 2026 11:04:12 +0800
+Subject: [PATCH] feat: add MX98357A support on I2S4
+
+Signed-off-by: ZHANG Yuntian <yt@radxa.com>
+Change-Id: I4450ed38abade5f84f2a2f5130448d634d79f4e0
+---
+ src/sound/soc/cix/card-utils.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/src/sound/soc/cix/card-utils.c b/src/sound/soc/cix/card-utils.c
+index f208159e84a3..b75e9583fbec 100644
+--- a/src/sound/soc/cix/card-utils.c
++++ b/src/sound/soc/cix/card-utils.c
+@@ -590,6 +590,7 @@ EXPORT_SYMBOL(cix_card_parse_of);
+ 
+ enum {
+ 	LK_I2S0_SC_ALC5682_CODEC = 0,
++	LK_I2S2_SC_MX98357A_CODEC,
+ 	LK_I2S3_MC_ALC1019_PA,
+ 	LK_I2S5_DP0,
+ 	LK_I2S6_DP1,
+@@ -609,6 +610,10 @@ SND_SOC_DAILINK_DEFS(cix_i2s0_sc_alc5682,
+ 	DAILINK_COMP_ARRAY({.name = "CIXH6010:00", .dai_name = "i2s-sc-aif",}),
+ 	DAILINK_COMP_ARRAY(COMP_CODEC("i2c-RTL5682:00", "rt5682s-aif1")),
+ 	DAILINK_COMP_ARRAY(COMP_PLATFORM("CIXH6010:00")));
++SND_SOC_DAILINK_DEFS(cix_i2s2_sc_mx98357a,
++	DAILINK_COMP_ARRAY({.name = "CIXH6010:02", .dai_name = "i2s-sc-aif",}),
++	DAILINK_COMP_ARRAY(COMP_CODEC("MX98357A:00", "HiFi")),
++	DAILINK_COMP_ARRAY(COMP_PLATFORM("CIXH6010:02")));
+ SND_SOC_DAILINK_DEFS(cix_i2s3_mc_alc1019,
+ 	DAILINK_COMP_ARRAY({.name = "CIXH6011:00", .dai_name = "i2s-mc-aif1",}),
+ 	DAILINK_COMP_ARRAY(COMP_DUMMY()),
+@@ -642,6 +647,13 @@ static struct dai_link_info sky1_link_info[] = {
+ 		.mclk_fs = 512,
+ 		.mclk_idx = 0,
+ 	}, /* "dailink_i2s_sc0_alc5682" */
++	{
++		.jack_pin[JACK_HP].pin = "Headset",
++		.jack_pin[JACK_HP].mask = SND_JACK_HEADSET,
++		.jack_det_mask = JACK_MASK_HP,
++		.mclk_fs = 256,
++		.mclk_idx = 0,
++	}, /* "dailink_i2s_sc2_mx98357a" */
+ 	{
+ 	}, /* "dailink_i2s_mc3_alc1019" */
+ 	{
+@@ -670,6 +682,18 @@ static struct snd_soc_dai_link sky1_dailink[] = {
+ 		.ops = &cix_dailink_ops,
+ 		SND_SOC_DAILINK_REG(cix_i2s0_sc_alc5682),
+ 	},
++	{
++		.name = "dailink_i2s_sc2_mx98357a",
++		.stream_name = "soc:i2s-sc2",
++		.id = 2, // i2s2
++		.dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
++				| SND_SOC_DAIFMT_GATED
++				| SND_SOC_DAIFMT_CBC_CFC,
++		.init = &cix_dailink_init,
++		.dpcm_playback = 1,
++		.ops = &cix_dailink_ops,
++		SND_SOC_DAILINK_REG(cix_i2s2_sc_mx98357a),
++	},
+ 	{
+ 		.name = "dailink_i2s_m2a_alc1019",
+ 		.stream_name = "soc:i2s-m2a",
+-- 
+2.54.0
+
