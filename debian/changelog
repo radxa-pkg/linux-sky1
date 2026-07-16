@@ -1,3 +1,11 @@
+linux-sky1 (6.6.89-6) unstable; urgency=medium
+
+  [ ZHANG Yuntian ]
+  * feat: add MX98357A support on I2S4
+  * fix: workaround O6N display issue
+
+ -- "Radxa Computer Co., Ltd" <dev@radxa.com>  Thu, 16 Jul 2026 11:13:29 +0000
+
 linux-sky1 (6.6.89-5) unstable; urgency=medium
 
   [ ZHANG Yuntian ]
