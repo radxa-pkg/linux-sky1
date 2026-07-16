@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: ZHANG Yuntian <yt@radxa.com>
+Date: Thu, 16 Jul 2026 18:35:37 +0800
+Subject: [PATCH] HACK: ignore max_tmds_clock
+
+This caused display issues on Radxa Orion O6N.
+
+Signed-off-by: ZHANG Yuntian <yt@radxa.com>
+Change-Id: I3158e25dd7c32b5d52b81005e16d575e608ad52d
+---
+ src/drivers/gpu/drm/cix/dptx/trilin_drm.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/src/drivers/gpu/drm/cix/dptx/trilin_drm.c b/src/drivers/gpu/drm/cix/dptx/trilin_drm.c
+index 09653d78c003..92a2989a1f0c 100644
+--- a/src/drivers/gpu/drm/cix/dptx/trilin_drm.c
++++ b/src/drivers/gpu/drm/cix/dptx/trilin_drm.c
+@@ -955,10 +955,6 @@ static bool compute_available_clock_rate(struct trilin_dp *dp,
+ 		rate = trilin_dp_max_rate(max_rate, max_lanes, bpp);
+ 
+ 		max_pixel_clock = rate;
+-		if (info->max_tmds_clock > 0)
+-			max_pixel_clock = min(max_pixel_clock,
+-					      trilin_dp_hdmi_max_pixel_clock_khz(
+-						      info->max_tmds_clock, bpp));
+ 
+ 		/* clock is adjusted_mode->clock, also in kHz */
+ 		if (clock <= max_pixel_clock) {
+-- 
+2.54.0
+

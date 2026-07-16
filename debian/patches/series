@@ -4,3 +4,4 @@ linux/0003-include-expose-CIX-MNTN-headers.patch
 linux/0004-HACK-restore-S0-pinctrl-state-on-resume.patch
 linux/0005-DPTSW-23172-firmware-arm_scmi-Exclude-platform-devices.patch
 linux/0006-chore-add-MX98357A-support-on-I2S4.patch
+linux/0007-HACK-ignore-max_tmds_clock.patch
